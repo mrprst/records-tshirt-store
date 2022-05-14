@@ -1,0 +1,7 @@
+.layoutContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f6f6f6;
+}

@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tshirt {
+  id          Int      @id @default(autoincrement())
+  title       String
+  price       String
+  quantity    Int      @default(0)
+  color       Color
+  size        Size
+  description String?  @db.VarChar(150)
+  imageUrl    String
+  Order       Order?   @relation(fields: [orderId], references: [id])
+  orderId     Int?
+  Provider    Provider @relation(fields: [providerId], references: [id])
+  providerId  Int
+  stock       Int      @default(0)
+}
+
+model Client {
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String?
+  address String?
+
+  Order Order[]
+  @@map(name: "clients")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  client    Client   @relation(fields: [clientId], references: [id])
+  clientId  Int
+  Tshirts   Tshirt[]
+}
+
+model Provider {
+  id      Int      @id @default(autoincrement())
+  name    String
+  Tshirts Tshirt[]
+}
+
+enum Color {
+  WHITE
+  BLACK
+  RED
+  YELLOW
+  GREEN
+  PURPLE
+}
+
+enum Size {
+  S
+  M
+  L
+  XL
+}
