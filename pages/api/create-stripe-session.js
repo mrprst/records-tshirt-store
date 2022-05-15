@@ -28,6 +28,7 @@ async function CreateStripeSession(req, res) {
     cancel_url: `${redirectURL}?status=cancel`,
     metadata: {
       images: tshirt.imageUrl,
+      
     },
   });
 

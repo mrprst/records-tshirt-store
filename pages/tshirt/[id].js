@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "../../styles/Home.module.css";
+import Red from '../../assets/red.jpeg';
 
 function TshirtPage() {
   const router = useRouter();
@@ -12,7 +13,7 @@ function TshirtPage() {
   const [tshirt, setTshirt] = useState(null);
   const [stock, setStock] = useState(null);
   const [color, setColor] = useState("white");
-  const [size, setSize] = useState('S');
+  const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -55,9 +56,12 @@ function TshirtPage() {
 
   useEffect(() => {
     getTshirt();
+  }, [id]);
+
+  useEffect(() => {
     getColors();
     getSize();
-  }, [id]);
+  }, []);
 
   const onQuantityPlus = () => {
     setQuantity(quantity + 1);
@@ -77,8 +81,8 @@ function TshirtPage() {
     setSize(e.target.value);
   };
 
-  console.log(color)
-  console.log(size)
+  console.log(color);
+  console.log(size);
 
   const checkStock = () => {
     if (stock - tshirt.quantity < 0) {
@@ -97,7 +101,8 @@ function TshirtPage() {
     if (!checkStock()) return false;
 
     const stripe = await stripePromise;
-
+    tshirt.color = color;
+    tshirt.size = size;
     const checkoutSession = await axios.post("/api/create-stripe-session", {
       tshirt,
     });
@@ -117,62 +122,55 @@ function TshirtPage() {
         <div className={classes.tshirtMedia}>
           <div
             className={classes.tshirtImg}
-            style={{ backgroundImage: `url(${tshirt?.imageUrl})` }}
+            style={{ backgroundImage: `url(${Red})` }}
           />
         </div>
 
-        <div className="row my-2">
-          <div className={classes.productContent}>
+        <div className={classes.productContent}>
+          <div className="row my-2">
             <h3>{tshirt?.title}!</h3>
             <div className="col-2 text-end">
               <span className="fs-4 fw-bold">{tshirt?.price} €</span>
             </div>
           </div>
-        </div>
-        <div className="mb-2">
-          <p>
-            Situé à{" "}
-            <span className={classes.tshirtLoc}>{tshirt?.location}</span>
-          </p>
-        </div>
-        <div>
-          <div className="border rounded">
-            <button
-              onClick={onQuantityMinus}
-              className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
-            >
-              -
-            </button>
-            <input type="number" className="p-2" defaultValue={quantity} />
-            <button
-              onClick={onQuantityPlus}
-              className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
-            >
-              +
-            </button>
+          <div className="mb-2">
+            <p>
+              Situé à{" "}
+              <span className={classes.tshirtLoc}>{tshirt?.location}</span>
+            </p>
           </div>
-        </div>
-        <div>
-          <p>Total</p>
-          <p>{tshirt?.price * quantity} euros</p>
-          <button
-            disabled={quantity === 0 || loading}
-            onClick={createCheckOutSession}
-          >
-            Ajouter au panier
-          </button>
-          <p>{tshirt?.description}</p>
-        </div>
-        <option>Choose a color</option>
-        <select id="selectColor" onChange={chooseColor}>
-        </select>
+          <div>
+            <div className="border rounded">
+              <button
+                onClick={onQuantityMinus}
+                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+              >
+                -
+              </button>
+              <p>{quantity}</p>
+              <button
+                onClick={onQuantityPlus}
+                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div>
+            <p>Total</p>
+            <p>{tshirt?.price * quantity} euros</p>
+            <button
+              disabled={quantity === 0 || loading}
+              onClick={createCheckOutSession}
+            >
+              Ajouter au panier
+            </button>
+            <p>{tshirt?.description}</p>
+          </div>
+          <option>Choose a color</option>
+          <select id="selectColor" onChange={chooseColor}></select>
           <option>Choose a size</option>
-        <select id="selectSize" onChange={chooseSize}>
-        </select>
-      </div>
-      <div className="col-3">
-        <div className={classes.tshirtCard}>
-          <div className={classes.tshirtDivider} />
+          <select id="selectSize" onChange={chooseSize}></select>
         </div>
       </div>
     </div>
