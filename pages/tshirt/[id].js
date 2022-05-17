@@ -6,10 +6,12 @@ import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "../../styles/Home.module.css";
 import Red from '../../assets/red.jpeg';
+import { useCart } from 'react-use-cart'
 
 function TshirtPage() {
   const router = useRouter();
   const { id } = router.query;
+  const { addItem } = useCart()
   const [tshirt, setTshirt] = useState(null);
   const [stock, setStock] = useState(null);
   const [color, setColor] = useState("white");
@@ -81,8 +83,6 @@ function TshirtPage() {
     setSize(e.target.value);
   };
 
-  console.log(color);
-  console.log(size);
 
   const checkStock = () => {
     if (stock - tshirt.quantity < 0) {
@@ -162,6 +162,17 @@ function TshirtPage() {
             <button
               disabled={quantity === 0 || loading}
               onClick={createCheckOutSession}
+            >
+              Payer
+            </button>
+
+            <button
+              disabled={quantity === 0 || loading}
+              onClick={() => addItem(
+                tshirt,
+                quantity
+                )
+              }
             >
               Ajouter au panier
             </button>

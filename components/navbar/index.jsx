@@ -13,6 +13,9 @@ export default function Navbar() {
               Tshirt Store
             </a>
           </Link>
+          <Link href="/cart">
+            <a>Cart</a>
+          </Link>
         </div>
       </div>
     </nav>

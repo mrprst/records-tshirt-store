@@ -1,13 +1,12 @@
 import "../styles/globals.css";
 import Layout from "../components/layout/index";
-import { useState } from "react";
-import { useEffect } from "react";
+import { CartProvider } from "react-use-cart";
 import axios from "axios";
 import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <CartProvider>
       <Head>
         <title>Tshirt Website</title>
         <meta name="description" content="Peps" />
@@ -25,12 +24,12 @@ function MyApp({ Component, pageProps }) {
 
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
+      <Layout {...pageProps}>
         <div className="container">
           <Component {...pageProps} />
         </div>
       </Layout>
-    </>
+    </CartProvider>
   );
 }
 
