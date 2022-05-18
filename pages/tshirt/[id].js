@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "../../styles/Home.module.css";
-import Red from '../../assets/red.jpeg';
+
 import { useCart } from 'react-use-cart'
 
 function TshirtPage() {
@@ -115,14 +115,13 @@ function TshirtPage() {
     }
     setLoading(false);
   };
-
   return (
     <div className="my-3 row">
       <div className={classes.product}>
         <div className={classes.tshirtMedia}>
           <div
             className={classes.tshirtImg}
-            style={{ backgroundImage: `url(${Red})` }}
+            style={{ backgroundImage: `url(${tshirt?.imageUrl})` }}
           />
         </div>
 
