@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function CreateStripeSession(req, res) {
   const { tshirt } = req.body;
-
+  console.log(req.body)
   const redirectURL = process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
     : 'https://stripe-checkout-next-js-demo.vercel.app';
@@ -28,7 +28,7 @@ async function CreateStripeSession(req, res) {
     cancel_url: `${redirectURL}?status=cancel`,
     metadata: {
       images: tshirt.imageUrl,
-      
+
     },
   });
 
