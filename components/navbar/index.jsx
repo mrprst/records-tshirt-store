@@ -2,21 +2,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import classes from "./NavBar.module.css";
+import { useCart } from "react-use-cart";
 
 export default function Navbar() {
+
+  const {  totalItems } =
+  useCart();
+
   return (
     <nav className="navbar navbar-expand navbar-light">
       <div className={classes.menu}>
-        <div className="d-flex mx-4 px-4">
           <Link href="/" exact>
             <a className="nav-item nav-link link-dark px-3 fw-bold fs-4">
               Tshirt Store
             </a>
           </Link>
           <Link href="/cart">
-            <a>Cart</a>
+            <a>Cart ({totalItems})</a>
           </Link>
-        </div>
       </div>
     </nav>
   );
