@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <CartProvider>
       <Head>
-        <title>Tshirt Website</title>
+        <title>Tshirt & Hoodie Website</title>
         <meta name="description" content="Peps" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 

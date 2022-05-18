@@ -5,19 +5,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "../../styles/Home.module.css";
-
-import { useCart } from 'react-use-cart'
+import { useCart } from "react-use-cart";
 
 function TshirtPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { addItem } = useCart()
   const [tshirt, setTshirt] = useState(null);
   const [stock, setStock] = useState(null);
   const [color, setColor] = useState("white");
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { addItem } = useCart();
 
   const getTshirt = async () => {
     try {
@@ -65,12 +64,12 @@ function TshirtPage() {
     getSize();
   }, []);
 
-  const onQuantityPlus = () => {
+  const onQuantityPlus = (tshirt) => {
     setQuantity(quantity + 1);
     tshirt.quantity = quantity + 1;
   };
 
-  const onQuantityMinus = () => {
+  const onQuantityMinus = (tshirt) => {
     setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
     tshirt.quantity = quantity - 1;
   };
@@ -83,9 +82,8 @@ function TshirtPage() {
     setSize(e.target.value);
   };
 
-
   const checkStock = () => {
-    if (stock - tshirt.quantity < 0) {
+    if (stock - tshirt?.quantity < 0) {
       setLoading(false);
       return false;
     }
@@ -115,16 +113,19 @@ function TshirtPage() {
     }
     setLoading(false);
   };
+  console.log(tshirt?.color.toLowerCase());
+
   return (
     <div className="my-3 row">
       <div className={classes.product}>
         <div className={classes.tshirtMedia}>
-          <div
-            className={classes.tshirtImg}
-            style={{ backgroundImage: `url(${tshirt?.imageUrl})` }}
+          <img
+            src={tshirt?.imageUrl}
+            alt="Picture of the author"
+            width={500}
+            height={500}
           />
         </div>
-
         <div className={classes.productContent}>
           <div className="row my-2">
             <h3>{tshirt?.title}!</h3>
@@ -141,14 +142,14 @@ function TshirtPage() {
           <div>
             <div className="border rounded">
               <button
-                onClick={onQuantityMinus}
+                onClick={() => onQuantityMinus(tshirt)}
                 className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
               >
                 -
               </button>
               <p>{quantity}</p>
               <button
-                onClick={onQuantityPlus}
+                onClick={() => onQuantityPlus(tshirt)}
                 className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
               >
                 +
@@ -167,11 +168,7 @@ function TshirtPage() {
 
             <button
               disabled={quantity === 0 || loading}
-              onClick={() => addItem(
-                tshirt,
-                quantity
-                )
-              }
+              onClick={() => addItem(tshirt, quantity)}
             >
               Ajouter au panier
             </button>
