@@ -6,7 +6,6 @@ import classes from '../../styles/Home.module.css';
 export default function ProductPage({ tshirts }) {
   return (
     <div>
-      Hello
       <div className={classes.cards}>
         {tshirts?.map((tshirt, i) => (
           <div>

@@ -9,8 +9,8 @@ export default function ProductPage({ tshirts }) {
       Hello
       <div className={classes.cards}>
         {tshirts?.map((tshirt, i) => (
-          <div>
-            <TshirtCard width="80%" tshirt={tshirt} key={i} />
+          <div key={tshirt.id}>
+            <TshirtCard width="80%" tshirt={tshirt} />
           </div>
         ))}
       </div>
