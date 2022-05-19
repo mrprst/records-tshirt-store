@@ -2,9 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function CreateStripeSession(req, res) {
   const { tshirt } = req.body;
-  const redirectURL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'https://panopli-app.vercel.app/';
+  const redirectURL = 'https://panopli-app.vercel.app/'
 
   const transformedItem = {
     price_data: {
