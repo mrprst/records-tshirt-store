@@ -91,7 +91,6 @@ function TshirtPage() {
   };
 
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-  const stripePromise = loadStripe(publishableKey);
 
   const createCheckOutSession = async () => {
     setLoading(true);
@@ -108,6 +107,7 @@ function TshirtPage() {
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
+
     if (result.error) {
       alert(result.error.message);
     }
