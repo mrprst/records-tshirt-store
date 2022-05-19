@@ -4,8 +4,13 @@ import { useRouter } from "next/router";
 import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
-import classes from "../../styles/Home.module.css";
+import classes from "./Tshirt.module.css";
 import { useCart } from "react-use-cart";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import Button from "@mui/material/Button";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 function TshirtPage() {
   const router = useRouter();
@@ -92,7 +97,7 @@ function TshirtPage() {
 
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
-  
+
   const createCheckOutSession = async () => {
     setLoading(true);
 
@@ -117,67 +122,63 @@ function TshirtPage() {
   console.log(tshirt?.color.toLowerCase());
 
   return (
-    <div className="my-3 row">
-      <div className={classes.product}>
+    <div className={classes.block}>
+      <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
           <img
             src={tshirt?.imageUrl}
-            alt="Picture of the author"
+            alt={tshirt?.title + tshirt?.id}
             width={500}
             height={500}
+            className={classes.tshirtImage}
           />
         </div>
         <div className={classes.productContent}>
-          <div className="row my-2">
-            <h3>{tshirt?.title}!</h3>
-            <div className="col-2 text-end">
-              <span className="fs-4 fw-bold">{tshirt?.price} €</span>
-            </div>
-          </div>
-          <div className="mb-2">
-            <p>
-              Situé à{" "}
-              <span className={classes.tshirtLoc}>{tshirt?.location}</span>
-            </p>
+          <div>
+            <h3 className={classes.h3}>{tshirt?.title}</h3>
           </div>
           <div>
-            <div className="border rounded">
-              <button
+            <h4 className={classes.h4}>{tshirt?.price} €</h4>
+          </div>
+          <div>
+            <div className={classes.quantity}>
+              <Fab
                 onClick={() => onQuantityMinus(tshirt)}
-                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+                size="small"
+                color="white"
+                aria-label="add"
               >
-                -
-              </button>
-              <p>{quantity}</p>
-              <button
+                <RemoveIcon />
+              </Fab>
+              <h3 className={classes.h3}>&nbsp;{quantity}&nbsp;</h3>
+              <Fab
                 onClick={() => onQuantityPlus(tshirt)}
-                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+                size="small"
+                color="white"
+                aria-label="add"
               >
-                +
-              </button>
+                <AddIcon />
+              </Fab>
             </div>
           </div>
           <div>
-            <p>Total</p>
-            <p>{tshirt?.price * quantity} euros</p>
-            <button
-              disabled={quantity === 0 || loading}
-              onClick={createCheckOutSession}
-            >
-              Payer
-            </button>
-
-            <button
+            <h5 className={classes.h5}>
+              Total : {tshirt?.price * quantity} euros
+            </h5>
+            <Fab
               disabled={quantity === 0 || loading}
               onClick={() => addItem(tshirt, quantity)}
+              size="large"
+              color="white"
+              aria-label="add"
             >
-              Ajouter au panier
-            </button>
+              <ShoppingCartIcon />
+            </Fab>
             <p>{tshirt?.description}</p>
           </div>
-          <option>Choose a color</option>
+          <option className={classes.h5}>Choose a color</option>
           <select id="selectColor" onChange={chooseColor}></select>
-          <option>Choose a size</option>
+          <option className={classes.h5}>Choose a size</option>
           <select id="selectSize" onChange={chooseSize}></select>
         </div>
       </div>

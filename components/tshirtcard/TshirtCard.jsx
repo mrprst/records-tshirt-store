@@ -15,7 +15,8 @@ const TshirtCard = ({ tshirt, width }) => {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="160"
+            height="400"
+            width="400"
             image={tshirt.imageUrl}
             alt={tshirt.title}
           />

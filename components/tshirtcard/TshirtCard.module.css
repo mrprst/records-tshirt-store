@@ -2,7 +2,10 @@
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 25px;
-  background-color: #fafafa;
+  background-color: #fafafa00;
+  color: white;
+  border: solid 0.5px white;
+  width: 20rem;
 }
 
 .cardText {
@@ -11,4 +14,5 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  color: rgb(126, 126, 126);
 }

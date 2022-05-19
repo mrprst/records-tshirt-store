@@ -14,11 +14,11 @@ export default function Navbar() {
       <div className={classes.menu}>
           <Link href="/" exact>
             <a className="nav-item nav-link link-dark px-3 fw-bold fs-4">
-              Tshirt Store
+              Panopli Dev Store
             </a>
           </Link>
           <Link href="/cart">
-            <a>Cart ({totalItems})</a>
+            <a>Cart ({totalItems} items)</a>
           </Link>
       </div>
     </nav>
