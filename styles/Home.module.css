@@ -14,6 +14,7 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  color: black;
 }
 
 .footer a {
@@ -103,80 +104,26 @@
   margin-left: 0.5rem;
 }
 
-.product {
+.cards {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.productContent {
-  display: flex;
-  flex-direction: column;
-}
+
 
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
   }
-}
 
 .cards {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.tshirtMedia {
-  height: 500px;
-  width: 50%;
-}
-
-.tshirtImg {
-  height: 100%;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 7px;
-}
-
-.tshirtCard {
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  border-radius: 7px;
-}
-
-.tshirtCard:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-.tshirtDivider {
-  height: 1px;
-  background-color: rgb(204, 209, 217);
-  position: relative;
-  margin: 24px 0px;
-}
-
-.tshirtLoc {
-  background-image: linear-gradient(
-    to top,
-    rgb(252, 240, 192) 0%,
-    rgb(252, 240, 192) 8px,
-    transparent 8px,
-    transparent 100%
-  );
-  font-weight: bold;
-}
-
-.bottomBtn {
-  margin-top: 1%;
-  text-align: center;
-  width: 100%;
-}
-
-.forms {
-  width: 30vw;
 }

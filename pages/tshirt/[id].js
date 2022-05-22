@@ -4,8 +4,19 @@ import { useRouter } from "next/router";
 import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
-import classes from "../../styles/Home.module.css";
+import classes from "./Tshirt.module.css";
 import { useCart } from "react-use-cart";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Image from "next/image";
+import black from "../../public/black.jpeg";
+import green from "../../public/green.jpeg";
+import purple from "../../public/purple.jpeg";
+import red from "../../public/red.jpeg";
+import white from "../../public/white.jpeg";
+import yellow from "../../public/yellow.jpeg";
 
 function TshirtPage() {
   const router = useRouter();
@@ -75,7 +86,7 @@ function TshirtPage() {
   };
 
   const chooseColor = (e) => {
-    setColor(e.target.value);
+    setColor(e.target.value.toLowerCase());
   };
 
   const chooseSize = (e) => {
@@ -92,7 +103,7 @@ function TshirtPage() {
 
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
-  
+
   const createCheckOutSession = async () => {
     setLoading(true);
 
@@ -114,70 +125,67 @@ function TshirtPage() {
     }
     setLoading(false);
   };
-  console.log(tshirt?.color.toLowerCase());
 
   return (
-    <div className="my-3 row">
-      <div className={classes.product}>
+    <div className={classes.block}>
+      <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
-          <img
-            src={tshirt?.imageUrl}
-            alt="Picture of the author"
+          <Image
+            alt={tshirt?.title + tshirt?.id}
+            src={"/" + color + ".jpeg"}
             width={500}
             height={500}
+            className={classes.tshirtImage}
           />
         </div>
-        <div className={classes.productContent}>
-          <div className="row my-2">
-            <h3>{tshirt?.title}!</h3>
-            <div className="col-2 text-end">
-              <span className="fs-4 fw-bold">{tshirt?.price} €</span>
-            </div>
+        <div className={classes.tshirtInfo}>
+          <div>
+            <h3 className={classes.h3}>{tshirt?.title}</h3>
           </div>
-          <div className="mb-2">
+          <div>
+            <h4 className={classes.h4}>{tshirt?.price} €</h4>
             <p>
-              Situé à{" "}
-              <span className={classes.tshirtLoc}>{tshirt?.location}</span>
+              <i>{tshirt?.description}</i>
             </p>
           </div>
           <div>
-            <div className="border rounded">
-              <button
+            <div className={classes.quantity}>
+              <Fab
                 onClick={() => onQuantityMinus(tshirt)}
-                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+                size="small"
+                color={quantity > 0 ? "primary" : "white"}
+                aria-label="add"
               >
-                -
-              </button>
-              <p>{quantity}</p>
-              <button
+                <RemoveIcon />
+              </Fab>
+              <h4 className={classes.h4}>&nbsp;{quantity}&nbsp;</h4>
+              <Fab
                 onClick={() => onQuantityPlus(tshirt)}
-                className="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-600"
+                size="small"
+                color="primary"
+                aria-label="add"
               >
-                +
-              </button>
+                <AddIcon />
+              </Fab>
             </div>
           </div>
           <div>
-            <p>Total</p>
-            <p>{tshirt?.price * quantity} euros</p>
-            <button
-              disabled={quantity === 0 || loading}
-              onClick={createCheckOutSession}
-            >
-              Payer
-            </button>
-
-            <button
+            <h5 className={classes.h5}>
+              Total : {tshirt?.price * quantity} euros
+            </h5>
+            <Fab
               disabled={quantity === 0 || loading}
               onClick={() => addItem(tshirt, quantity)}
+              size="large"
+              color="white"
+              aria-label="add"
             >
-              Ajouter au panier
-            </button>
-            <p>{tshirt?.description}</p>
+              <ShoppingCartIcon />
+            </Fab>
           </div>
-          <option>Choose a color</option>
+          <option className={classes.h5}>Choose a color</option>
           <select id="selectColor" onChange={chooseColor}></select>
-          <option>Choose a size</option>
+          <option className={classes.h5}>Choose a size</option>
           <select id="selectSize" onChange={chooseSize}></select>
         </div>
       </div>
