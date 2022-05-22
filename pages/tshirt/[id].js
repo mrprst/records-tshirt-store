@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "./Tshirt.module.css";
-import { useCart } from "react-use-cart";
+import { useCart, isEmpty } from "react-use-cart";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -34,9 +34,7 @@ function TshirtPage() {
       const result = await axios.get(`/api/tshirt/${id}`);
       setTshirt(result.data);
       setStock(result.data.stock);
-    } catch (err) {
-      console.log("Loading errors.");
-    }
+    } catch (err) {}
   };
 
   const getColors = () => {
@@ -57,7 +55,6 @@ function TshirtPage() {
     Object.keys(Size).map((size) => dataSize.push(size));
     const select = document.getElementById("selectSize");
     for (let i = 0; i < dataSize.length; i++) {
-      console.log(select);
       var opt = dataSize[i].toUpperCase();
       var el = document.createElement("option");
       el.textContent = opt;
@@ -77,12 +74,10 @@ function TshirtPage() {
 
   const onQuantityPlus = (tshirt) => {
     setQuantity(quantity + 1);
-    tshirt.quantity = quantity + 1;
   };
 
   const onQuantityMinus = (tshirt) => {
     setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
-    tshirt.quantity = quantity - 1;
   };
 
   const chooseColor = (e) => {
@@ -131,9 +126,9 @@ function TshirtPage() {
       <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
           <Image
-            alt={tshirt?.title + tshirt?.id}
+            alt={tshirt?.title}
             src={"/" + color + ".jpeg"}
-            width={500}
+            width={400}
             height={500}
             className={classes.tshirtImage}
           />
@@ -151,9 +146,11 @@ function TshirtPage() {
           <div>
             <div className={classes.quantity}>
               <Fab
-                onClick={() => onQuantityMinus(tshirt)}
+                onClick={() => {
+                  onQuantityMinus(tshirt);
+                }}
                 size="small"
-                color={quantity > 0 ? "primary" : "white"}
+                color={quantity > 0 ? "primary" : "default"}
                 aria-label="add"
               >
                 <RemoveIcon />
@@ -169,13 +166,20 @@ function TshirtPage() {
               </Fab>
             </div>
           </div>
+          <option className={classes.h5}>Choose a color</option>
+          <select id="selectColor" onChange={chooseColor}></select>
+          <option className={classes.h5}>Choose a size</option>
+          <select id="selectSize" onChange={chooseSize}></select>
           <div>
             <h5 className={classes.h5}>
               Total : {tshirt?.price * quantity} euros
             </h5>
             <Fab
               disabled={quantity === 0 || loading}
-              onClick={() => addItem(tshirt, quantity)}
+              onClick={() => {
+                addItem(tshirt, quantity);
+                setQuantity(0);
+              }}
               size="large"
               color="white"
               aria-label="add"
@@ -183,10 +187,6 @@ function TshirtPage() {
               <ShoppingCartIcon />
             </Fab>
           </div>
-          <option className={classes.h5}>Choose a color</option>
-          <select id="selectColor" onChange={chooseColor}></select>
-          <option className={classes.h5}>Choose a size</option>
-          <select id="selectSize" onChange={chooseSize}></select>
         </div>
       </div>
     </div>

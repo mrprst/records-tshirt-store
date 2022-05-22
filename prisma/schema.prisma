@@ -11,19 +11,17 @@ datasource db {
 }
 
 model Tshirt {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   title       String
-  price       String
-  quantity    Int      @default(0)
+  price       Int
   color       Color
   size        Size
-  description String?  @db.VarChar(150)
+  description String?     @db.VarChar(150)
   imageUrl    String
-  Order       Order?   @relation(fields: [orderId], references: [id])
-  orderId     Int?
-  Provider    Provider @relation(fields: [providerId], references: [id])
+  OrderItems  OrderItem[]
+  Provider    Provider    @relation(fields: [providerId], references: [id])
   providerId  Int
-  stock       Int      @default(0)
+  stock       Int         @default(0)
 }
 
 model Client {
@@ -37,12 +35,22 @@ model Client {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
-  client    Client   @relation(fields: [clientId], references: [id])
-  clientId  Int
-  Tshirts   Tshirt[]
+  id          Int         @id @default(autoincrement())
+  orderstatus OrderStatus
+  client      Client      @relation(fields: [clientId], references: [id])
+  clientId    Int
+  createdAt   DateTime    @default(now()) @map(name: "created_at")
+  OrderItems  OrderItem[]
+}
+
+model OrderItem {
+  id       Int    @id @default(autoincrement())
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  Int
+  tshirt   Tshirt @relation(fields: [tshirtId], references: [id])
+  tshirtId Int
+  quantity Int
+  price    Int
 }
 
 model Provider {
@@ -65,4 +73,9 @@ enum Size {
   M
   L
   XL
+}
+
+enum OrderStatus {
+  pending
+  accepted
 }
