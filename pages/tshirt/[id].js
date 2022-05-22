@@ -9,8 +9,14 @@ import { useCart } from "react-use-cart";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Image from "next/image";
+import black from "../../public/black.jpeg";
+import green from "../../public/green.jpeg";
+import purple from "../../public/purple.jpeg";
+import red from "../../public/red.jpeg";
+import white from "../../public/white.jpeg";
+import yellow from "../../public/yellow.jpeg";
 
 function TshirtPage() {
   const router = useRouter();
@@ -80,7 +86,7 @@ function TshirtPage() {
   };
 
   const chooseColor = (e) => {
-    setColor(e.target.value);
+    setColor(e.target.value.toLowerCase());
   };
 
   const chooseSize = (e) => {
@@ -119,42 +125,44 @@ function TshirtPage() {
     }
     setLoading(false);
   };
-  console.log(tshirt?.color.toLowerCase());
 
   return (
     <div className={classes.block}>
       <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
-          <img
-            src={tshirt?.imageUrl}
+          <Image
             alt={tshirt?.title + tshirt?.id}
+            src={"/" + color + ".jpeg"}
             width={500}
             height={500}
             className={classes.tshirtImage}
           />
         </div>
-        <div className={classes.productContent}>
+        <div className={classes.tshirtInfo}>
           <div>
             <h3 className={classes.h3}>{tshirt?.title}</h3>
           </div>
           <div>
             <h4 className={classes.h4}>{tshirt?.price} €</h4>
+            <p>
+              <i>{tshirt?.description}</i>
+            </p>
           </div>
           <div>
             <div className={classes.quantity}>
               <Fab
                 onClick={() => onQuantityMinus(tshirt)}
                 size="small"
-                color="white"
+                color={quantity > 0 ? "primary" : "white"}
                 aria-label="add"
               >
                 <RemoveIcon />
               </Fab>
-              <h3 className={classes.h3}>&nbsp;{quantity}&nbsp;</h3>
+              <h4 className={classes.h4}>&nbsp;{quantity}&nbsp;</h4>
               <Fab
                 onClick={() => onQuantityPlus(tshirt)}
                 size="small"
-                color="white"
+                color="primary"
                 aria-label="add"
               >
                 <AddIcon />
@@ -174,7 +182,6 @@ function TshirtPage() {
             >
               <ShoppingCartIcon />
             </Fab>
-            <p>{tshirt?.description}</p>
           </div>
           <option className={classes.h5}>Choose a color</option>
           <select id="selectColor" onChange={chooseColor}></select>

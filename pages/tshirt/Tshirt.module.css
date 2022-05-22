@@ -2,16 +2,26 @@
 .block {
   display: flex;
   justify-content: center;
+  width: 100%;
+  color: rgb(49, 49, 49);
 }
 
 .tshirt {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
 }
 
-.productContent {
+.tshirtMedia {
+  width: 70%
+}
+
+.tshirtInfo {
   display: flex;
   flex-direction: column;
+  width: 30%
 }
 
 .h3 {

@@ -4,6 +4,7 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import classes from "./Cart.module.css"
 
 function Cart() {
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,7 @@ function Cart() {
 
 
   return (
-    <>
+    <div className={classes.cart}>
       <pre>{JSON.stringify(items)}</pre>
       {items.map((item) => (
         <div key={item.id}>
@@ -74,8 +75,9 @@ function Cart() {
       >
         Payer
       </button>
-    </>
+    </div>
   );
+
 }
 
 export default Cart;
