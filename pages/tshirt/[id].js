@@ -5,12 +5,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "./Tshirt.module.css";
-import { useCart } from "react-use-cart";
+import { useCart, isEmpty } from "react-use-cart";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Image from "next/image";
+import black from "../../public/black.jpeg";
+import green from "../../public/green.jpeg";
+import purple from "../../public/purple.jpeg";
+import red from "../../public/red.jpeg";
+import white from "../../public/white.jpeg";
+import yellow from "../../public/yellow.jpeg";
 
 function TshirtPage() {
   const router = useRouter();
@@ -28,9 +34,7 @@ function TshirtPage() {
       const result = await axios.get(`/api/tshirt/${id}`);
       setTshirt(result.data);
       setStock(result.data.stock);
-    } catch (err) {
-      console.log("Loading errors.");
-    }
+    } catch (err) {}
   };
 
   const getColors = () => {
@@ -51,7 +55,6 @@ function TshirtPage() {
     Object.keys(Size).map((size) => dataSize.push(size));
     const select = document.getElementById("selectSize");
     for (let i = 0; i < dataSize.length; i++) {
-      console.log(select);
       var opt = dataSize[i].toUpperCase();
       var el = document.createElement("option");
       el.textContent = opt;
@@ -71,16 +74,14 @@ function TshirtPage() {
 
   const onQuantityPlus = (tshirt) => {
     setQuantity(quantity + 1);
-    tshirt.quantity = quantity + 1;
   };
 
   const onQuantityMinus = (tshirt) => {
     setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
-    tshirt.quantity = quantity - 1;
   };
 
   const chooseColor = (e) => {
-    setColor(e.target.value);
+    setColor(e.target.value.toLowerCase());
   };
 
   const chooseSize = (e) => {
@@ -119,67 +120,73 @@ function TshirtPage() {
     }
     setLoading(false);
   };
-  console.log(tshirt?.color.toLowerCase());
 
   return (
     <div className={classes.block}>
       <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
-          <img
-            src={tshirt?.imageUrl}
-            alt={tshirt?.title + tshirt?.id}
-            width={500}
+          <Image
+            alt={tshirt?.title}
+            src={"/" + color + ".jpeg"}
+            width={400}
             height={500}
             className={classes.tshirtImage}
           />
         </div>
-        <div className={classes.productContent}>
+        <div className={classes.tshirtInfo}>
           <div>
             <h3 className={classes.h3}>{tshirt?.title}</h3>
           </div>
           <div>
             <h4 className={classes.h4}>{tshirt?.price} €</h4>
+            <p>
+              <i>{tshirt?.description}</i>
+            </p>
           </div>
           <div>
             <div className={classes.quantity}>
               <Fab
-                onClick={() => onQuantityMinus(tshirt)}
+                onClick={() => {
+                  onQuantityMinus(tshirt);
+                }}
                 size="small"
-                color="white"
+                color={quantity > 0 ? "primary" : "default"}
                 aria-label="add"
               >
                 <RemoveIcon />
               </Fab>
-              <h3 className={classes.h3}>&nbsp;{quantity}&nbsp;</h3>
+              <h4 className={classes.h4}>&nbsp;{quantity}&nbsp;</h4>
               <Fab
                 onClick={() => onQuantityPlus(tshirt)}
                 size="small"
-                color="white"
+                color="primary"
                 aria-label="add"
               >
                 <AddIcon />
               </Fab>
             </div>
           </div>
+          <option className={classes.h5}>Choose a color</option>
+          <select id="selectColor" onChange={chooseColor}></select>
+          <option className={classes.h5}>Choose a size</option>
+          <select id="selectSize" onChange={chooseSize}></select>
           <div>
             <h5 className={classes.h5}>
               Total : {tshirt?.price * quantity} euros
             </h5>
             <Fab
               disabled={quantity === 0 || loading}
-              onClick={() => addItem(tshirt, quantity)}
+              onClick={() => {
+                addItem(tshirt, quantity);
+                setQuantity(0);
+              }}
               size="large"
               color="white"
               aria-label="add"
             >
               <ShoppingCartIcon />
             </Fab>
-            <p>{tshirt?.description}</p>
           </div>
-          <option className={classes.h5}>Choose a color</option>
-          <select id="selectColor" onChange={chooseColor}></select>
-          <option className={classes.h5}>Choose a size</option>
-          <select id="selectSize" onChange={chooseSize}></select>
         </div>
       </div>
     </div>

@@ -4,14 +4,11 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-<<<<<<< Updated upstream
-=======
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import classes from "./Cart.module.css";
->>>>>>> Stashed changes
 
 function Cart() {
   const [loading, setLoading] = useState(false);
@@ -125,6 +122,7 @@ function Cart() {
       </div>
     </div>
   );
+
 }
 
 export default Cart;
