@@ -5,12 +5,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 import classes from "./Tshirt.module.css";
-import { useCart, isEmpty } from "react-use-cart";
+import { useCart, totalItems } from "react-use-cart";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Image from "next/image";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import Button from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 import black from "../../public/black.jpeg";
 import green from "../../public/green.jpeg";
 import purple from "../../public/purple.jpeg";
@@ -28,6 +34,7 @@ function TshirtPage() {
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
   const { addItem } = useCart();
+  const [noerror, setNoerror] = useState(true);
 
   const getTshirt = async () => {
     try {
@@ -49,6 +56,11 @@ function TshirtPage() {
       select.appendChild(el);
     }
   };
+
+  const {
+    totalItems,
+  } = useCart();
+
 
   const getSize = () => {
     const dataSize = [];
@@ -72,11 +84,11 @@ function TshirtPage() {
     getSize();
   }, []);
 
-  const onQuantityPlus = (tshirt) => {
+  const onQuantityPlus = () => {
     setQuantity(quantity + 1);
   };
 
-  const onQuantityMinus = (tshirt) => {
+  const onQuantityMinus = () => {
     setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
   };
 
@@ -89,36 +101,14 @@ function TshirtPage() {
   };
 
   const checkStock = () => {
-    if (stock - tshirt?.quantity < 0) {
+    if (stock - quantity - totalItems < 0) {
       setLoading(false);
+      setNoerror(false);
       return false;
+    } else {
+      addItem(tshirt, quantity);
+      setQuantity(0);
     }
-    return true;
-  };
-
-  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-  const stripePromise = loadStripe(publishableKey);
-
-  const createCheckOutSession = async () => {
-    setLoading(true);
-
-    if (!checkStock()) return false;
-
-    const stripe = await stripePromise;
-    tshirt.color = color;
-    tshirt.size = size;
-    const checkoutSession = await axios.post("/api/create-stripe-session", {
-      tshirt,
-    });
-
-    const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-
-    if (result.error) {
-      alert(result.error.message);
-    }
-    setLoading(false);
   };
 
   return (
@@ -174,18 +164,42 @@ function TshirtPage() {
             <h5 className={classes.h5}>
               Total : {tshirt?.price * quantity} euros
             </h5>
-            <Fab
-              disabled={quantity === 0 || loading}
-              onClick={() => {
-                addItem(tshirt, quantity);
-                setQuantity(0);
-              }}
-              size="large"
-              color="white"
-              aria-label="add"
-            >
-              <ShoppingCartIcon />
-            </Fab>
+            <div className={classes.checkoutbutton}>
+              <Fab
+                disabled={quantity === 0 || loading}
+                onClick={() => {
+                  checkStock();
+                }}
+                size="large"
+                color="white"
+                aria-label="add"
+              >
+                <ShoppingCartIcon />
+              </Fab>
+              <div className={noerror ? classes.noerror : classes.showerror}>
+                <Box sx={{ width: "100%" }}>
+                    <Alert
+                      action={
+                        <IconButton
+                          aria-label="close"
+                          color="inherit"
+                          size="small"
+                          onClick={() => {
+                            setNoerror(true);
+                          }}
+                        >
+                          <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                      }
+                      sx={{ mb: 2 }}
+                      severity="error"
+                    >
+                      Il ne reste que {stock} tshirts disponibles. Veuillez
+                      ajuster votre commande et/ou votre panier.
+                    </Alert>
+                </Box>
+              </div>
+            </div>
           </div>
         </div>
       </div>

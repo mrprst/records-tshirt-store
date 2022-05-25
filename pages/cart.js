@@ -4,12 +4,10 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import classes from "./Cart.module.css";
-import Button from "@mui/material/Button";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
@@ -29,6 +27,9 @@ function Cart() {
   const onQuantityPlus = (item) => {
     updateItemQuantity(item.id, item.quantity + 1);
   };
+
+
+
 
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
@@ -63,7 +64,6 @@ function Cart() {
       {items && (
         <div>
           <div className={classes.cart}>
-            <pre>{JSON.stringify(items)}</pre>
             {items.map((item) => (
               <div key={item.id} className={classes.item}>
                 <Image
@@ -92,14 +92,14 @@ function Cart() {
                       <RemoveIcon />
                     </Fab>
                     <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
-                    <Fab
+                    {/* <Fab
                       onClick={() => onQuantityPlus(item)}
                       size="small"
                       color="primary"
                       aria-label="add"
                     >
                       <AddIcon />
-                    </Fab>
+                    </Fab> */}
 
                     <Fab
                       onClick={() => removeItem(item.id)}
