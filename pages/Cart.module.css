@@ -1,4 +1,25 @@
-
 .cart {
   color: black
+}
+
+.item{
+  display: flex;
+  align-items: center;
+  border: grey solid 0.5px;
+  justify-content: space-around;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-weight: bold;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+}
+
+.checkout {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  height: 40px;
 }
