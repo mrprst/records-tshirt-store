@@ -116,22 +116,16 @@ function Cart() {
             ))}
           </div>
           <div className={classes.checkout}>
-            <Button
-              variant="contained"
+            <Fab
+              variant="extended"
               color="primary"
               onClick={createCheckOutSession}
-              sx={{ marginRight: 3 }}
             >
               Payer
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={emptyCart}
-              sx={{ marginRight: 3 }}
-            >
+            </Fab>
+            <Fab variant="extended" color="error" onClick={emptyCart}>
               Vider
-            </Button>
+            </Fab>
           </div>
         </div>
       )}
