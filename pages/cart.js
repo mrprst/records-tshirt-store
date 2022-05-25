@@ -4,14 +4,12 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-<<<<<<< Updated upstream
-=======
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import classes from "./Cart.module.css";
->>>>>>> Stashed changes
+import Button from "@mui/material/Button";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
@@ -62,67 +60,81 @@ function Cart() {
 
   return (
     <div>
-      <div className={classes.cart}>
-        <pre>{JSON.stringify(items)}</pre>
-        {items.map((item) => (
-          <div key={item.id} className={classes.item}>
-            <Image
-              alt={item.title}
-              src={item.imageUrl}
-              width={100}
-              height={100}
-              className={classes.tshirtImage}
-            />
-            <div>
-              <Link href={`/tshirt/${item.id}`}>
-                <a>{item.title}</a>
-              </Link>
-            </div>
-            <div>{item.price}€</div>
-            <div className="border rounded">
-              <div className={classes.quantity}>
-                <Fab
-                  onClick={() => {
-                    onQuantityMinus(item);
-                  }}
-                  size="small"
-                  color="primary"
-                  aria-label="add"
-                >
-                  <RemoveIcon />
-                </Fab>
-                <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
-                <Fab
-                  onClick={() => onQuantityPlus(item)}
-                  size="small"
-                  color="primary"
-                  aria-label="add"
-                >
-                  <AddIcon />
-                </Fab>
+      {items && (
+        <div>
+          <div className={classes.cart}>
+            <pre>{JSON.stringify(items)}</pre>
+            {items.map((item) => (
+              <div key={item.id} className={classes.item}>
+                <Image
+                  alt={item.title}
+                  src={item.imageUrl}
+                  width={100}
+                  height={100}
+                  className={classes.tshirtImage}
+                />
+                <div>
+                  <Link href={`/tshirt/${item.id}`}>
+                    <a>{item.title}</a>
+                  </Link>
+                </div>
+                <div>{item.price}€</div>
+                <div className="border rounded">
+                  <div className={classes.quantity}>
+                    <Fab
+                      onClick={() => {
+                        onQuantityMinus(item);
+                      }}
+                      size="small"
+                      color="primary"
+                      aria-label="add"
+                    >
+                      <RemoveIcon />
+                    </Fab>
+                    <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
+                    <Fab
+                      onClick={() => onQuantityPlus(item)}
+                      size="small"
+                      color="primary"
+                      aria-label="add"
+                    >
+                      <AddIcon />
+                    </Fab>
 
-                <Fab
-                  onClick={() => removeItem(item.id)}
-                  size="small"
-                  color="error"
-                  aria-label="add"
-                  sx={{ mr: 1 }}
-                >
-                  <DeleteOutlineIcon />
-                </Fab>
+                    <Fab
+                      onClick={() => removeItem(item.id)}
+                      size="small"
+                      color="error"
+                      aria-label="add"
+                      sx={{ marginLeft: 1 }}
+                    >
+                      <DeleteOutlineIcon />
+                    </Fab>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className={classes.checkout}>
-        <Fab variant="extended" color="primary" onClick={createCheckOutSession}>
-          Payer
-        </Fab>
-        <Fab variant="extended" color="error" onClick={emptyCart}>
-          Vider
-        </Fab>
-      </div>
+          <div className={classes.checkout}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={createCheckOutSession}
+              sx={{ marginRight: 3 }}
+            >
+              Payer
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={emptyCart}
+              sx={{ marginRight: 3 }}
+            >
+              Vider
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
