@@ -17,25 +17,20 @@ import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import black from "../../public/black.jpeg";
-import green from "../../public/green.jpeg";
-import purple from "../../public/purple.jpeg";
-import red from "../../public/red.jpeg";
-import white from "../../public/white.jpeg";
-import yellow from "../../public/yellow.jpeg";
+import OptionMenu from "../../components/optionMenu";
 
 function TshirtPage() {
   const router = useRouter();
   const { id } = router.query;
   const [tshirt, setTshirt] = useState(null);
   const [stock, setStock] = useState(null);
-  const [color, setColor] = useState(tshirt?.color.toLowerCase());
-  const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
   const { addItem } = useCart();
   const [noerror, setNoerror] = useState(true);
-  const tshirtImage = `${tshirt?.title.split(' ')[1].toLowerCase()}-${tshirt?.color}.jpeg`
+  const tshirtImage = `${tshirt?.title.split(" ")[1].toLowerCase()}-${
+    tshirt?.color
+  }.jpeg`;
 
   const getTshirt = async () => {
     try {
@@ -45,45 +40,14 @@ function TshirtPage() {
     } catch (err) {}
   };
 
-  const getColors = () => {
-    const dataColors = [];
-    Object.keys(Color).map((color) => dataColors.push(color));
-    const select = document.getElementById("selectColor");
-    for (let i = 0; i < dataColors.length; i++) {
-      var opt = dataColors[i].toUpperCase();
-      var el = document.createElement("option");
-      el.textContent = opt;
-      el.value = opt;
-      select.appendChild(el);
-    }
-  };
 
-  const {
-    totalItems,
-  } = useCart();
+  const { totalItems } = useCart();
 
-
-  const getSize = () => {
-    const dataSize = [];
-    Object.keys(Size).map((size) => dataSize.push(size));
-    const select = document.getElementById("selectSize");
-    for (let i = 0; i < dataSize.length; i++) {
-      var opt = dataSize[i].toUpperCase();
-      var el = document.createElement("option");
-      el.textContent = opt;
-      el.value = opt;
-      select.appendChild(el);
-    }
-  };
 
   useEffect(() => {
     getTshirt();
   }, [id]);
 
-  useEffect(() => {
-    getColors();
-    getSize();
-  }, []);
 
   const onQuantityPlus = () => {
     setQuantity(quantity + 1);
@@ -93,13 +57,6 @@ function TshirtPage() {
     setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
   };
 
-  const chooseColor = (e) => {
-    setColor(e.target.value.toLowerCase());
-  };
-
-  const chooseSize = (e) => {
-    setSize(e.target.value);
-  };
 
   const checkStock = () => {
     if (stock - quantity - totalItems < 0) {
@@ -111,7 +68,6 @@ function TshirtPage() {
       setQuantity(0);
     }
   };
-
 
   return (
     <div className={classes.block}>
@@ -158,10 +114,7 @@ function TshirtPage() {
               </Fab>
             </div>
           </div>
-          <option className={classes.h5}>Choose a color</option>
-          <select value={tshirt?.color} id="selectColor" onChange={chooseColor}></select>
-          <option className={classes.h5}>Choose a size</option>
-          <select id="selectSize" onChange={chooseSize}></select>
+          <OptionMenu tshirt={tshirt} />
           <div>
             <h5 className={classes.h5}>
               Total : {tshirt?.price * quantity} euros
@@ -180,25 +133,25 @@ function TshirtPage() {
               </Fab>
               <div className={noerror ? classes.noerror : classes.showerror}>
                 <Box sx={{ width: "100%" }}>
-                    <Alert
-                      action={
-                        <IconButton
-                          aria-label="close"
-                          color="inherit"
-                          size="small"
-                          onClick={() => {
-                            setNoerror(true);
-                          }}
-                        >
-                          <CloseIcon fontSize="inherit" />
-                        </IconButton>
-                      }
-                      sx={{ mb: 2 }}
-                      severity="error"
-                    >
-                      Il ne reste que {stock} tshirts disponibles. Veuillez
-                      ajuster votre commande et/ou votre panier.
-                    </Alert>
+                  <Alert
+                    action={
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {
+                          setNoerror(true);
+                        }}
+                      >
+                        <CloseIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                    sx={{ mb: 2 }}
+                    severity="error"
+                  >
+                    Il ne reste que {stock} tshirts disponibles. Veuillez
+                    ajuster votre commande et/ou votre panier.
+                  </Alert>
                 </Box>
               </div>
             </div>
