@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,6 +9,7 @@ import Link from "next/link";
 
 const TshirtCard = ({ tshirt, width }) => {
   const tshirtLink = `/tshirt/${tshirt.id}`;
+  const tshirtImage = `${tshirt.title.split(' ')[1].toLowerCase()}-${tshirt.color.toLowerCase()}.jpeg`
 
   return (
     <Link href={tshirtLink}>
@@ -17,7 +19,7 @@ const TshirtCard = ({ tshirt, width }) => {
             component="img"
             height="400"
             width="400"
-            image={tshirt.imageUrl}
+            image={tshirtImage}
             alt={tshirt.title}
           />
           <CardContent>
@@ -29,7 +31,6 @@ const TshirtCard = ({ tshirt, width }) => {
               color="text.secondary"
               className={classes.cardText}
             >
-
               {tshirt.price + "$"}
             </Typography>
           </CardContent>

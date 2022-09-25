@@ -12,7 +12,7 @@ export default function Navbar() {
       <div className={classes.menu}>
         <Link href="/" exact>
           <a className="nav-item nav-link link-dark px-3 fw-bold fs-4">
-            Panopli Dev Store
+            Records Tshirt Store
           </a>
         </Link>
         <Link href="/cart">

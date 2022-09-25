@@ -29,12 +29,13 @@ function TshirtPage() {
   const { id } = router.query;
   const [tshirt, setTshirt] = useState(null);
   const [stock, setStock] = useState(null);
-  const [color, setColor] = useState("white");
+  const [color, setColor] = useState(tshirt?.color.toLowerCase());
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
   const { addItem } = useCart();
   const [noerror, setNoerror] = useState(true);
+  const tshirtImage = `${tshirt?.title.split(' ')[1].toLowerCase()}-${tshirt?.color}.jpeg`
 
   const getTshirt = async () => {
     try {
@@ -111,13 +112,14 @@ function TshirtPage() {
     }
   };
 
+
   return (
     <div className={classes.block}>
       <div className={classes.tshirt}>
         <div className={classes.tshirtMedia}>
           <Image
             alt={tshirt?.title}
-            src={"/" + color + ".jpeg"}
+            src={"/" + tshirtImage}
             width={400}
             height={500}
             className={classes.tshirtImage}
@@ -157,7 +159,7 @@ function TshirtPage() {
             </div>
           </div>
           <option className={classes.h5}>Choose a color</option>
-          <select id="selectColor" onChange={chooseColor}></select>
+          <select value={tshirt?.color} id="selectColor" onChange={chooseColor}></select>
           <option className={classes.h5}>Choose a size</option>
           <select id="selectSize" onChange={chooseSize}></select>
           <div>

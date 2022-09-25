@@ -11,6 +11,7 @@ import classes from "./Cart.module.css";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
+
   const {
     items,
     emptyCart,
@@ -68,7 +69,7 @@ function Cart() {
               <div key={item.id} className={classes.item}>
                 <Image
                   alt={item.title}
-                  src={item.imageUrl}
+                  src={`/${item?.title.split(' ')[1].toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
                   width={100}
                   height={100}
                   className={classes.tshirtImage}
@@ -92,14 +93,14 @@ function Cart() {
                       <RemoveIcon />
                     </Fab>
                     <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
-                    {/* <Fab
+                    <Fab
                       onClick={() => onQuantityPlus(item)}
                       size="small"
                       color="primary"
                       aria-label="add"
                     >
                       <AddIcon />
-                    </Fab> */}
+                    </Fab>
 
                     <Fab
                       onClick={() => removeItem(item.id)}
