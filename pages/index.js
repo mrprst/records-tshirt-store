@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TshirtCard from "../components/tshirtcard/index";
+import TshirtCard from "../components/tshirtcard";
 import prisma from "../lib/prisma.ts";
 import classes from "../styles/Home.module.css";
 
