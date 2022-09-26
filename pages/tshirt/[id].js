@@ -8,36 +8,17 @@ import Image from "next/image";
 import OptionMenu from "../../components/optionMenu";
 import CheckoutButton from "../../components/checkoutbutton";
 import Quantity from "../../components/quantity";
+import prisma from "../../lib/prisma.ts";
 
-function TshirtPage() {
-  const [tshirt, setTshirt] = useState(null);
+const TshirtPage = ({tshirt}) => {
   const [quantity, setQuantity] = useState(0);
+  const [chosenTshirt, setChosenTshirt] = useState("")
   const [stock, setStock] = useState(null);
-  const [color, setColor] = useState("RED");
+  const [color, setColor] = useState("");
   const [size, setSize] = useState("S");
   const [image, setImage] = useState("/");
-  const router = useRouter();
-  const { id } = router.query;
   const { addItem, totalItems } = useCart();
 
-  const getTshirt = async () => {
-    try {
-      const result = await axios.get(`/api/tshirt/${id}`);
-      setTshirt(result.data);
-      setStock(result.data.stock);
-      setColor(result.data.color);
-      setSize(result.data.size);
-      setImage(
-        `/${result.data.title
-          .split(" ")[1]
-          .toLowerCase()}-${result.data.color.toLowerCase()}.jpeg`
-      );
-    } catch (err) {}
-  };
-
-  useEffect(() => {
-    getTshirt();
-  }, [id]);
 
   useEffect(() => {
     setImage(
@@ -45,8 +26,10 @@ function TshirtPage() {
         .split(" ")[1]
         .toLowerCase()}-${color?.toLowerCase()}.jpeg`
     );
-    setTshirt({
-      ...tshirt, color, size
+    setChosenTshirt({
+      ...tshirt,
+      color,
+      size,
     });
   }, [color, size]);
 
@@ -63,7 +46,7 @@ function TshirtPage() {
   };
 
   const handleOrder = () => {
-    addItem(tshirt, quantity);
+    addItem(chosenTshirt, quantity);
     setQuantity(0);
   };
 
@@ -107,5 +90,18 @@ function TshirtPage() {
     </div>
   );
 }
-
 export default TshirtPage;
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const tshirt = await prisma.tshirt.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  return {
+    props: {
+      tshirt: tshirt,
+    },
+  };
+}

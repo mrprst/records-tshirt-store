@@ -13,10 +13,11 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { totalItems } = useCart();
+  const { totalItems, items } = useCart();
 
   const checkStock = () => {
-    if (stock - quantity - totalItems < 0) {
+
+    if (stock - quantity < 0) {
       setLoading(false);
       setNoerror(false);
       return false;
