@@ -4,6 +4,7 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import Add from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -59,6 +60,7 @@ function Cart() {
     }
     setLoading(false);
   };
+  console.log(useCart())
 
   return (
     <div>
@@ -99,7 +101,7 @@ function Cart() {
                       color="primary"
                       aria-label="add"
                     >
-                      <AddIcon />
+                      <Add />
                     </Fab>
 
                     <Fab

@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Color } from "@prisma/client";
 import { Size } from "@prisma/client";
 
-const OptionMenu = ({ tshirt }) => {
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
-
+const OptionMenu = ({ color, size, handleColor, handleSize }) => {
   const getOptions = (parameter) => {
     const setOptions = parameter === "Color" ? Color : Size;
     Object.keys(setOptions).forEach((option) => {
@@ -18,29 +15,28 @@ const OptionMenu = ({ tshirt }) => {
   };
 
   useEffect(() => {
-    setColor(tshirt?.color);
-    setSize(tshirt?.size)
-  }, [tshirt]);
-
-  useEffect(() => {
     getOptions("Color");
     getOptions("Size");
   }, []);
 
-  const chooseColor = (e) => {
-    setColor(e.target.value);
-  };
-
-  const chooseSize = (e) => {
-    setSize(e.target.value);
-  };
-
   return (
     <>
-      <option>Choose a color</option>
-      <select value={color} id="selectColor" onChange={chooseColor}></select>
-      <option>Choose a size</option>
-      <select value={size} id="selectSize" onChange={chooseSize}></select>
+      <h5>
+        <option>Choose a color</option>
+      </h5>
+      <select
+        value={color}
+        id="selectColor"
+        onChange={(e) => handleColor(e.target.value)}
+      ></select>
+      <h5>
+        <option>Choose a size</option>
+      </h5>
+      <select
+        value={size}
+        id="selectSize"
+        onChange={(e) => handleSize(e.target.value)}
+      ></select>
     </>
   );
 };
