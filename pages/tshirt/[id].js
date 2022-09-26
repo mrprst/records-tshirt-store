@@ -15,10 +15,14 @@ const TshirtPage = ({tshirt}) => {
   const [chosenTshirt, setChosenTshirt] = useState("")
   const [stock, setStock] = useState(null);
   const [color, setColor] = useState("");
-  const [size, setSize] = useState("S");
+  const [size, setSize] = useState("");
   const [image, setImage] = useState("/");
   const { addItem, totalItems } = useCart();
 
+  useEffect(() => {
+    setColor(tshirt?.color)
+    setSize(tshirt?.size)
+  }, []);
 
   useEffect(() => {
     setImage(
