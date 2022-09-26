@@ -26,50 +26,6 @@
   width: 30%
 }
 
-.h3 {
-  font-size: 40px;
-  margin: 0px;
-}
-
-.h4 {
-  font-size: 30px;
-  margin: 0px;
-}
-
-.h5 {
-  font-size: 20px;
-}
-
-.quantity {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkoutbutton {
-  display: flex;
-  align-items: center;
-}
-
-.noerror {
-  margin-left: 5px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: -1;
-  width: 75%;
-  font-weight: 10px;
-}
-
-.showerror {
-  margin-left: 5px;
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 1;
-  width: 75%;
-  font-weight: 10px;
-
-}
-
 @media (max-width: 600px) {
   .grid {
     width: 100%;

@@ -4,6 +4,7 @@ import { useCart } from "react-use-cart";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import Add from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -11,6 +12,7 @@ import classes from "./Cart.module.css";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
+
   const {
     items,
     emptyCart,
@@ -58,6 +60,7 @@ function Cart() {
     }
     setLoading(false);
   };
+  console.log(useCart())
 
   return (
     <div>
@@ -68,7 +71,7 @@ function Cart() {
               <div key={item.id} className={classes.item}>
                 <Image
                   alt={item.title}
-                  src={item.imageUrl}
+                  src={`/${item?.title.split(' ')[1].toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
                   width={100}
                   height={100}
                   className={classes.tshirtImage}
@@ -92,14 +95,14 @@ function Cart() {
                       <RemoveIcon />
                     </Fab>
                     <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
-                    {/* <Fab
+                    <Fab
                       onClick={() => onQuantityPlus(item)}
                       size="small"
                       color="primary"
                       aria-label="add"
                     >
-                      <AddIcon />
-                    </Fab> */}
+                      <Add />
+                    </Fab>
 
                     <Fab
                       onClick={() => removeItem(item.id)}

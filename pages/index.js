@@ -1,5 +1,5 @@
 import React from 'react';
-import TshirtCard from '../components/tshirtcard/TshirtCard';
+import TshirtCard from '../components/tshirtcard/index';
 import prisma from '../lib/prisma.ts';
 import classes from '../styles/Home.module.css';
 
