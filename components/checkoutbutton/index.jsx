@@ -16,7 +16,7 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   const { totalItems, items } = useCart();
 
   const checkStock = () => {
-
+    // Rajouter le stock de la card
     if (stock - quantity < 0) {
       setLoading(false);
       setNoerror(false);
@@ -27,9 +27,10 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   };
 
   useEffect(() => {
-    setStock(tshirt?.stock);
-    setPrice(tshirt?.price);
+    setStock(tshirt[0]?.stock);
+    setPrice(tshirt[0]?.price);
   }, [tshirt]);
+
 
   return (
     <div>

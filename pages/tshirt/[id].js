@@ -10,18 +10,20 @@ import CheckoutButton from "../../components/checkoutbutton";
 import Quantity from "../../components/quantity";
 import prisma from "../../lib/prisma.ts";
 
-const TshirtPage = ({tshirt}) => {
+const TshirtPage = ({ tshirt, allTshirts }) => {
   const [quantity, setQuantity] = useState(0);
-  const [chosenTshirt, setChosenTshirt] = useState("")
-  const [stock, setStock] = useState(null);
+  const [chosenTshirt, setChosenTshirt] = useState("");
+  const [id, setId] = useState(0);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const [image, setImage] = useState("/");
-  const { addItem, totalItems } = useCart();
+  const { addItem, totalUniqueItems, cartTotal } = useCart();
 
   useEffect(() => {
-    setColor(tshirt?.color)
-    setSize(tshirt?.size)
+    setColor(tshirt?.color);
+    setSize(tshirt?.size);
+    setId(tshirt?.id);
+    setChosenTshirt(tshirt)
   }, []);
 
   useEffect(() => {
@@ -30,11 +32,17 @@ const TshirtPage = ({tshirt}) => {
         .split(" ")[1]
         .toLowerCase()}-${color?.toLowerCase()}.jpeg`
     );
-    setChosenTshirt({
-      ...tshirt,
-      color,
-      size,
-    });
+  }, [color]);
+
+  useEffect(() => {
+    setChosenTshirt(
+      allTshirts.filter(
+        (filteredTshirt) =>
+          filteredTshirt.title === tshirt.title &&
+          filteredTshirt.color === color &&
+          filteredTshirt.size === size
+      )
+    );
   }, [color, size]);
 
   const handleColor = (color) => {
@@ -50,10 +58,9 @@ const TshirtPage = ({tshirt}) => {
   };
 
   const handleOrder = () => {
-    addItem(chosenTshirt, quantity);
+    addItem(chosenTshirt[0], quantity);
     setQuantity(0);
   };
-
 
   return (
     <div className={classes.block}>
@@ -85,7 +92,7 @@ const TshirtPage = ({tshirt}) => {
             handleSize={handleSize}
           />
           <CheckoutButton
-            tshirt={tshirt}
+            tshirt={chosenTshirt}
             quantity={quantity}
             handleOrder={handleOrder}
           />
@@ -93,7 +100,7 @@ const TshirtPage = ({tshirt}) => {
       </div>
     </div>
   );
-}
+};
 export default TshirtPage;
 
 export async function getServerSideProps(context) {
@@ -103,9 +110,15 @@ export async function getServerSideProps(context) {
       id: parseInt(id),
     },
   });
+  const allTshirts = await prisma.tshirt.findMany({
+    include: {
+      Provider: true,
+    },
+  });
   return {
     props: {
       tshirt: tshirt,
+      allTshirts: allTshirts,
     },
   };
 }
