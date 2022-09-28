@@ -8,6 +8,7 @@ export default function ProductPage({ tshirts }) {
 
   return (
     <>
+      <h1 className={classes.title}>Records Tshirt Store</h1>
       <div className={classes.cards}>
         {Object.keys(tshirts).map((name, i) => (
           <div key={i}>

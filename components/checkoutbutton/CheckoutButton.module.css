@@ -21,3 +21,12 @@
   font-weight: 10px;
 }
 
+@media (max-width: 600px) {
+  .checkoutbutton {
+    flex-direction: column;
+  }
+
+  .checkoutbutton > button {
+    margin-left: 90%;
+  }
+}
