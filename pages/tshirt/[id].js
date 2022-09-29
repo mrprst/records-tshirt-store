@@ -8,36 +8,23 @@ import Image from "next/image";
 import OptionMenu from "../../components/optionMenu";
 import CheckoutButton from "../../components/checkoutbutton";
 import Quantity from "../../components/quantity";
+import prisma from "../../lib/prisma.ts";
 
-function TshirtPage() {
-  const [tshirt, setTshirt] = useState(null);
+const TshirtPage = ({ tshirt, allTshirts }) => {
   const [quantity, setQuantity] = useState(0);
-  const [stock, setStock] = useState(null);
-  const [color, setColor] = useState("RED");
-  const [size, setSize] = useState("S");
+  const [chosenTshirt, setChosenTshirt] = useState("");
+  const [id, setId] = useState(0);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
   const [image, setImage] = useState("/");
-  const router = useRouter();
-  const { id } = router.query;
-  const { addItem, totalItems } = useCart();
-
-  const getTshirt = async () => {
-    try {
-      const result = await axios.get(`/api/tshirt/${id}`);
-      setTshirt(result.data);
-      setStock(result.data.stock);
-      setColor(result.data.color);
-      setSize(result.data.size);
-      setImage(
-        `/${result.data.title
-          .split(" ")[1]
-          .toLowerCase()}-${result.data.color.toLowerCase()}.jpeg`
-      );
-    } catch (err) {}
-  };
+  const { addItem, totalUniqueItems, cartTotal } = useCart();
 
   useEffect(() => {
-    getTshirt();
-  }, [id]);
+    setColor(tshirt?.color);
+    setSize(tshirt?.size);
+    setId(tshirt?.id);
+    setChosenTshirt(tshirt)
+  }, []);
 
   useEffect(() => {
     setImage(
@@ -45,9 +32,17 @@ function TshirtPage() {
         .split(" ")[1]
         .toLowerCase()}-${color?.toLowerCase()}.jpeg`
     );
-    setTshirt({
-      ...tshirt, color, size
-    });
+  }, [color]);
+
+  useEffect(() => {
+    setChosenTshirt(
+      allTshirts.filter(
+        (filteredTshirt) =>
+          filteredTshirt.title === tshirt.title &&
+          filteredTshirt.color === color &&
+          filteredTshirt.size === size
+      )
+    );
   }, [color, size]);
 
   const handleColor = (color) => {
@@ -63,10 +58,9 @@ function TshirtPage() {
   };
 
   const handleOrder = () => {
-    addItem(tshirt, quantity);
+    addItem(chosenTshirt[0], quantity);
     setQuantity(0);
   };
-
 
   return (
     <div className={classes.block}>
@@ -98,7 +92,7 @@ function TshirtPage() {
             handleSize={handleSize}
           />
           <CheckoutButton
-            tshirt={tshirt}
+            tshirt={chosenTshirt}
             quantity={quantity}
             handleOrder={handleOrder}
           />
@@ -106,6 +100,25 @@ function TshirtPage() {
       </div>
     </div>
   );
-}
-
+};
 export default TshirtPage;
+
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  const tshirt = await prisma.tshirt.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  const allTshirts = await prisma.tshirt.findMany({
+    include: {
+      Provider: true,
+    },
+  });
+  return {
+    props: {
+      tshirt: tshirt,
+      allTshirts: allTshirts,
+    },
+  };
+}

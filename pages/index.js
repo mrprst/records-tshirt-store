@@ -6,9 +6,9 @@ import classes from "../styles/Home.module.css";
 export default function ProductPage({ tshirts }) {
   Object.values(tshirts).forEach((value) => console.log(value[0].id));
 
-  let arr = ["A", "B", "C"];
   return (
     <>
+      <h1 className={classes.title}>Records Tshirt Store</h1>
       <div className={classes.cards}>
         {Object.keys(tshirts).map((name, i) => (
           <div key={i}>

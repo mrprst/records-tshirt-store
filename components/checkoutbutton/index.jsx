@@ -13,10 +13,11 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { totalItems } = useCart();
+  const { totalItems, items } = useCart();
 
   const checkStock = () => {
-    if (stock - quantity - totalItems < 0) {
+    // Rajouter le stock de la card
+    if (stock - quantity < 0) {
       setLoading(false);
       setNoerror(false);
       return false;
@@ -26,9 +27,10 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   };
 
   useEffect(() => {
-    setStock(tshirt?.stock);
-    setPrice(tshirt?.price);
+    setStock(tshirt[0]?.stock);
+    setPrice(tshirt[0]?.price);
   }, [tshirt]);
+
 
   return (
     <div>

@@ -12,6 +12,8 @@ import classes from "./Cart.module.css";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  const stripePromise = loadStripe(publishableKey);
 
   const {
     items,
@@ -30,23 +32,8 @@ function Cart() {
     updateItemQuantity(item.id, item.quantity + 1);
   };
 
-
-
-
-  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-  const stripePromise = loadStripe(publishableKey);
-
   const createCheckOutSession = async () => {
     setLoading(true);
-
-    const tshirt = {
-      title: "Your Order",
-      price: parseInt(cartTotal / totalItems),
-      quantity: totalItems,
-      imageUrl:
-        "https://www.beige-habilleur.com/8281-large_default/camber-t-shirt-poche-noir.jpg",
-    };
-
     const stripe = await stripePromise;
     const checkoutSession = await axios.post("/api/create-stripe-session", {
       tshirt,
@@ -60,26 +47,39 @@ function Cart() {
     }
     setLoading(false);
   };
-  console.log(useCart())
 
   return (
-    <div>
+    <div className={classes.container}>
       {items && (
         <div>
           <div className={classes.cart}>
+            <div className={classes.arrayInfo}>
+              <div>Visuel</div>
+              <div>Modèle</div>
+              <div>Prix/u</div>
+              <div>Modifier</div>
+              <div>Prix total</div>
+            </div>
             {items.map((item) => (
               <div key={item.id} className={classes.item}>
-                <Image
-                  alt={item.title}
-                  src={`/${item?.title.split(' ')[1].toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
-                  width={100}
-                  height={100}
-                  className={classes.tshirtImage}
-                />
-                <div>
+                <div className={classes.imageContainer}>
+                  <Image
+                    alt={item.title}
+                    src={`/${item?.title
+                      .split(" ")[1]
+                      .toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
+                    width={90}
+                    height={100}
+                    className={classes.tshirtImage}
+                  />
+                </div>
+                <div className={classes.info}>
                   <Link href={`/tshirt/${item.id}`}>
                     <a>{item.title}</a>
                   </Link>
+                  <p className={classes.options}>
+                    {item.color.toLowerCase()} - Taille {item.size}
+                  </p>
                 </div>
                 <div>{item.price}€</div>
                 <div className="border rounded">
@@ -91,15 +91,17 @@ function Cart() {
                       size="small"
                       color="primary"
                       aria-label="add"
+                      className={classes.button}
                     >
                       <RemoveIcon />
                     </Fab>
-                    <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
+                    <p>&nbsp;{item.quantity}&nbsp;</p>
                     <Fab
                       onClick={() => onQuantityPlus(item)}
                       size="small"
                       color="primary"
                       aria-label="add"
+                      className={classes.button}
                     >
                       <Add />
                     </Fab>
@@ -110,11 +112,13 @@ function Cart() {
                       color="error"
                       aria-label="add"
                       sx={{ marginLeft: 1 }}
+                      className={classes.button}
                     >
                       <DeleteOutlineIcon />
                     </Fab>
                   </div>
                 </div>
+                <div>{item.quantity * item.price}€</div>
               </div>
             ))}
           </div>

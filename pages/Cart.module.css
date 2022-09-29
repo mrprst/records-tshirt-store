@@ -1,8 +1,12 @@
-.cart {
-  color: black
+.container {
+  margin-top: 20px;
 }
 
-.item{
+.cart {
+  color: black;
+}
+
+.arrayInfo {
   display: flex;
   align-items: center;
   border: grey solid 0.5px;
@@ -10,6 +14,22 @@
   padding-top: 3px;
   padding-bottom: 3px;
   font-weight: bold;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  border-bottom: grey solid 0.5px;
+  justify-content: space-around;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-weight: bold;
+}
+
+.item > div, .arrayInfo > div {
+  width: 20%;
+  display: flex;
+  justify-content: center;
 }
 
 .quantity {
@@ -22,4 +42,21 @@
   display: flex;
   justify-content: flex-end;
   height: 40px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.options {
+  font-size: 80%;
+  color: grey;
+  margin: 0%;
+}
+
+.button {
+  width: 30px;
+  height: 30px;
+  min-height: 0px;
 }
