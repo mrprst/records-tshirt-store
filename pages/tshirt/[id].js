@@ -23,7 +23,7 @@ const TshirtPage = ({ tshirt, allTshirts }) => {
     setColor(tshirt?.color);
     setSize(tshirt?.size);
     setId(tshirt?.id);
-    setChosenTshirt(tshirt)
+    setChosenTshirt(tshirt);
   }, []);
 
   useEffect(() => {
@@ -75,22 +75,18 @@ const TshirtPage = ({ tshirt, allTshirts }) => {
           />
         </div>
         <div className={classes.tshirtInfo}>
-          <div>
-            <h3>{tshirt?.title}</h3>
-          </div>
-          <div>
-            <h4>{tshirt?.price} €</h4>
-            <p>
-              <i>{tshirt?.description}</i>
-            </p>
-          </div>
-          <Quantity handleQuantity={handleQuantity} quantity={quantity} />
+          <h3>{tshirt?.title}</h3>
+          <p className={classes.description}>
+            Description<br></br>
+            <i>{tshirt?.description}</i>
+          </p>
           <OptionMenu
             color={color}
             size={size}
             handleColor={handleColor}
             handleSize={handleSize}
           />
+          <Quantity handleQuantity={handleQuantity} quantity={quantity} />
           <CheckoutButton
             tshirt={chosenTshirt}
             quantity={quantity}

@@ -6,7 +6,6 @@ import ColorButton from "../colorButton/index";
 import SizeButton from "../sizeButton/index";
 
 const OptionMenu = ({ color, size, handleColor, handleSize }) => {
-
   const getColors = () => {
     let allColors = [];
     Object.keys(Color).forEach((option, index) => {
@@ -39,13 +38,9 @@ const OptionMenu = ({ color, size, handleColor, handleSize }) => {
 
   return (
     <div className={classes.container}>
-      <h5>
-        <option>COLOR</option>
-      </h5>
+      <h5>COLOR</h5>
       <div className={classes.option}>{getColors()}</div>
-      <h5>
-        <option>SIZE</option>
-      </h5>
+      <h5>SIZE </h5>
       <div className={classes.option}>{getSizes()}</div>
     </div>
   );

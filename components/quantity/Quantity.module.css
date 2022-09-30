@@ -1,5 +1,9 @@
+.container {
+  margin-top: 20px;
+}
 .quantity {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center
 }
