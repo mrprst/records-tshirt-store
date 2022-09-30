@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import Layout from "../components/layout/index";
+import Layout from "../components/layout/index.jsx";
 import { CartProvider } from "react-use-cart";
 import axios from "axios";
 import Head from "next/head";

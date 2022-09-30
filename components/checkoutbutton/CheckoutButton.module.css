@@ -1,3 +1,8 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+}
+
 .checkoutbutton {
   display: flex;
   align-items: center;

@@ -33,8 +33,8 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
 
 
   return (
-    <div>
-      <h5>Total : {quantity * price} euros</h5>
+    <div className={classes.container}>
+      <h5>{quantity * price}€</h5>
       <div className={classes.checkoutbutton}>
         <Fab
           disabled={quantity === 0 || loading}

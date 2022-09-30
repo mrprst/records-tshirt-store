@@ -6,7 +6,8 @@
   color: white;
   border: solid 0.5px white;
   width: 20rem;
-  color: rgb(49, 49, 49);
+  color: black;
+  font-size: 200%;
 }
 
 .cardText {
