@@ -38,10 +38,14 @@ const OptionMenu = ({ color, size, handleColor, handleSize }) => {
 
   return (
     <div className={classes.container}>
-      <h5>COLOR</h5>
-      <div className={classes.option}>{getColors()}</div>
-      <h5>SIZE </h5>
-      <div className={classes.option}>{getSizes()}</div>
+      <div className={classes.block}>
+        <p className={classes.title}>COLOR</p>
+        <div className={classes.option}>{getColors()}</div>
+      </div>
+      <div className={classes.block}>
+        <p className={classes.title}>SIZE </p>
+        <div className={classes.option}>{getSizes()}</div>
+      </div>
     </div>
   );
 };

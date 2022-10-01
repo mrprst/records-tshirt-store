@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AlertNotif from "../../AlertNotif";
 
 const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
-  const [noerror, setNoerror] = useState(true);
+  const [notempty, setNotEmpty] = useState(true);
   const [price, setPrice] = useState(0);
   const [stock, setStock] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   };
 
   const setNoerror = (alert) => {
-    setNoerror(alert)
+    setNotEmpty(alert)
   }
 
   useEffect(() => {
@@ -35,7 +35,6 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
   return (
     <div className={classes.container}>
       <div className={classes.checkoutbutton}>
-        <h5>{quantity * price}€</h5>
         <Fab
           disabled={quantity === 0 || loading}
           onClick={() => {
@@ -48,7 +47,7 @@ const CheckoutButton = ({ tshirt, quantity, handleOrder }) => {
           <ShoppingCartIcon />
         </Fab>
       </div>
-      {!noerror && <div><AlertNotif stock={stock} setNoerror={setNoerror}/></div>}
+      {!notempty && <div><AlertNotif stock={stock} setNoerror={setNoerror}/></div>}
     </div>
   );
 };

@@ -4,8 +4,15 @@
   align-items: center;
 }
 
-.option {
+.block {
+  margin-top: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 5px 0 5px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title {
+  margin: 2px;
 }

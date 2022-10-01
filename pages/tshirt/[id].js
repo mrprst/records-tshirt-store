@@ -77,8 +77,9 @@ const TshirtPage = ({ tshirt, allTshirts }) => {
         <div className={classes.tshirtInfo}>
           <h3>{tshirt?.title}</h3>
           <p className={classes.description}>
-            Description<br></br>
+            ABOUT<br></br>
             <i>{tshirt?.description}</i>
+            <br /><i><b>{tshirt?.price}€ TTC</b></i>
           </p>
           <OptionMenu
             color={color}

@@ -8,7 +8,7 @@ const Quantity = ({ handleQuantity, quantity }) => {
 
   return (
     <div className={classes.container}>
-      <h5>QUANTITY</h5>
+      <p className={classes.title}>QUANTITY</p>
       <div className={classes.quantity}>
         <Fab
           onClick={() => {
