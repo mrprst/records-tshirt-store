@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
         />
         <meta property="og:site_name" content="BTDT" />
 
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <Layout {...pageProps}>
         <div className="container">
