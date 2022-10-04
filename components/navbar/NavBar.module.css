@@ -7,3 +7,15 @@
 	padding-top: 10px;
 	color: rgb(49, 49, 49);
 }
+
+.logo {
+	font-weight: bold;
+	font-size: 150%;
+	color: black;
+}
+
+.cart {
+	font-weight: bold;
+	font-size: 125%;
+	color: black;
+}

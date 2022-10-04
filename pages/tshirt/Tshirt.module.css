@@ -26,7 +26,11 @@
   align-items: left;
 }
 
-@media (max-width: 600px) {
+.description {
+  text-align: center;
+}
+
+@media (max-width: 800px) {
   .grid {
     width: 100%;
     flex-direction: column;
@@ -46,7 +50,6 @@
 
   .tshirtMedia {
     margin-top: 10vh;
-    height: 70vh;
     width: 100%;
   }
 

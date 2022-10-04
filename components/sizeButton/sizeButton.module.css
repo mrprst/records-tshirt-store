@@ -1,0 +1,16 @@
+.size {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: 0;
+  font-size: 20px;
+  text-align: center;
+  color: grey;
+  border: 1px solid #bababa;
+  margin-right: 2px;
+}
+
+.activeSize {
+  border: 2px solid #000000;
+  color: black;
+}

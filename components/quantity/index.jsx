@@ -7,7 +7,8 @@ import classes from './Quantity.module.css'
 const Quantity = ({ handleQuantity, quantity }) => {
 
   return (
-    <div>
+    <div className={classes.container}>
+      <p className={classes.title}>QUANTITY</p>
       <div className={classes.quantity}>
         <Fab
           onClick={() => {

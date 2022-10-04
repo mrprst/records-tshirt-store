@@ -1,0 +1,11 @@
+.color {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #bababa;
+  border-radius: 100%;
+  margin-right: 2px;
+}
+
+.activeColor {
+  border: 2px solid #000000;
+}

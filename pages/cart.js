@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "react-use-cart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
@@ -12,6 +12,7 @@ import classes from "./Cart.module.css";
 
 function Cart() {
   const [loading, setLoading] = useState(false);
+  const [isEmpty, setIsEmpty] = useState()
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
 
@@ -48,9 +49,15 @@ function Cart() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    items.length > 0 ? setIsEmpty(false) : setIsEmpty(true)
+    }, [items]);
+
+    console.log(isEmpty)
+
   return (
     <div className={classes.container}>
-      {items && (
+      {!isEmpty && (
         <div>
           <div className={classes.cart}>
             <div className={classes.arrayInfo}>
@@ -134,6 +141,11 @@ function Cart() {
               Vider
             </Fab>
           </div>
+        </div>
+      )}
+      {isEmpty && (
+        <div>
+          <h5 style={{textAlign: 'center', fontWeight: 'bold'}}>Votre panier est vide, cliquez <a href="/">ici</a> pour commencer vos achats</h5>
         </div>
       )}
     </div>
