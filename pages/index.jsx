@@ -6,6 +6,10 @@ import classes from '../styles/Home.module.css';
 export default function ProductPage({ tshirts }) {
   return (
     <>
+      <div className={classes.title}>
+        <h1>Records Tshirt Store</h1>
+        <h4>The best records, on tshirts.</h4>
+      </div>
       <div className={classes.cards}>
         {Object.keys(tshirts).map((name, i) => (
           <div key={i}>

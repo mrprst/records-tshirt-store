@@ -8,15 +8,15 @@ export default function Navbar() {
   const { totalItems } = useCart();
 
   return (
-    <nav className="navbar navbar-expand navbar-light">
+    <nav>
       <div className={classes.menu}>
         <Link href="/" exact>
-          <a className="nav-item nav-link link-dark px-3 fw-bold fs-4">
-            Records Tshirt Store
+          <a className={classes.logo}>
+            .:RTS:.
           </a>
         </Link>
         <Link href="/cart">
-          <a>Cart ({totalItems} items)</a>
+          <a className={classes.cart}>Cart ({totalItems} items)</a>
         </Link>
       </div>
     </nav>

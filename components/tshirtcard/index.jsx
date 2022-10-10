@@ -21,6 +21,7 @@ const TshirtCard = ({ tshirt, width }) => {
             width="400"
             image={tshirtImage}
             alt={tshirt.title}
+            style={{objectFit: 'contain', padding: 20}}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">

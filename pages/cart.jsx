@@ -44,14 +44,31 @@ function Cart() {
     }
     setLoading(false);
   };
+<<<<<<< HEAD:pages/cart.jsx
+=======
+
+  useEffect(() => {
+    items.length > 0 ? setIsEmpty(false) : setIsEmpty(true)
+    }, [items]);
+
+    console.log(isEmpty)
+>>>>>>> development:pages/cart.js
 
   return (
-    <div>
-      {items && (
+    <div className={classes.container}>
+      {!isEmpty && (
         <div>
           <div className={classes.cart}>
+            <div className={classes.arrayInfo}>
+              <div>Visuel</div>
+              <div>Modèle</div>
+              <div>Prix/u</div>
+              <div>Modifier</div>
+              <div>Prix total</div>
+            </div>
             {items.map((item) => (
               <div key={item.id} className={classes.item}>
+<<<<<<< HEAD:pages/cart.jsx
                 <Image
                   alt={item.title}
                   src={`/${item?.title
@@ -62,9 +79,26 @@ function Cart() {
                   className={classes.tshirtImage}
                 />
                 <div>
+=======
+                <div className={classes.imageContainer}>
+                  <Image
+                    alt={item.title}
+                    src={`/${item?.title
+                      .split(" ")[1]
+                      .toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
+                    width={90}
+                    height={100}
+                    className={classes.tshirtImage}
+                  />
+                </div>
+                <div className={classes.info}>
+>>>>>>> development:pages/cart.js
                   <Link href={`/tshirt/${item.id}`}>
                     <a>{item.title}</a>
                   </Link>
+                  <p className={classes.options}>
+                    {item.color.toLowerCase()} - Taille {item.size}
+                  </p>
                 </div>
                 <div>{item.price}€</div>
                 <div className='border rounded'>
@@ -73,18 +107,32 @@ function Cart() {
                       onClick={() => {
                         onQuantityMinus(item);
                       }}
+<<<<<<< HEAD:pages/cart.jsx
                       size='small'
                       color='primary'
                       aria-label='add'
+=======
+                      size="small"
+                      color="primary"
+                      aria-label="add"
+                      className={classes.button}
+>>>>>>> development:pages/cart.js
                     >
                       <RemoveIcon />
                     </Fab>
-                    <h4 className={classes.h4}>&nbsp;{item.quantity}&nbsp;</h4>
+                    <p>&nbsp;{item.quantity}&nbsp;</p>
                     <Fab
                       onClick={() => onQuantityPlus(item)}
+<<<<<<< HEAD:pages/cart.jsx
                       size='small'
                       color='primary'
                       aria-label='add'
+=======
+                      size="small"
+                      color="primary"
+                      aria-label="add"
+                      className={classes.button}
+>>>>>>> development:pages/cart.js
                     >
                       <Add />
                     </Fab>
@@ -95,11 +143,13 @@ function Cart() {
                       color='error'
                       aria-label='add'
                       sx={{ marginLeft: 1 }}
+                      className={classes.button}
                     >
                       <DeleteOutlineIcon />
                     </Fab>
                   </div>
                 </div>
+                <div>{item.quantity * item.price}€</div>
               </div>
             ))}
           </div>
@@ -115,6 +165,11 @@ function Cart() {
               Vider
             </Fab>
           </div>
+        </div>
+      )}
+      {isEmpty && (
+        <div>
+          <h5 style={{textAlign: 'center', fontWeight: 'bold'}}>Votre panier est vide, cliquez <a href="/">ici</a> pour commencer vos achats</h5>
         </div>
       )}
     </div>

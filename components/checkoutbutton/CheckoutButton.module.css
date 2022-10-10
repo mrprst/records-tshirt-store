@@ -1,3 +1,10 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .checkoutbutton {
   display: flex;
   align-items: center;
@@ -21,3 +28,14 @@
   font-weight: 10px;
 }
 
+.price {
+  margin-right: 20px;
+  width: 80px;
+}
+
+@media (max-width: 600px) {
+  .checkoutbutton {
+    width: auto;
+  }
+
+}
