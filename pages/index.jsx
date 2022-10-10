@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import TshirtCard from "../components/tshirtcard";
-import prisma from "../lib/prisma.ts";
-import classes from "../styles/Home.module.css";
+import React from 'react';
+import TshirtCard from '../components/tshirtcard';
+import prisma from '../lib/prisma.ts';
+import classes from '../styles/Home.module.css';
 
 export default function ProductPage({ tshirts }) {
-  Object.values(tshirts).forEach((value) => console.log(value[0].id));
-
   return (
     <>
       <div className={classes.cards}>
@@ -22,30 +20,30 @@ export default function ProductPage({ tshirts }) {
 export async function getServerSideProps() {
   const amadou = await prisma.tshirt.findMany({
     where: {
-      title: "Tshirt Amadou",
-      color: "YELLOW",
-      size: "S",
+      title: 'Tshirt Amadou',
+      color: 'YELLOW',
+      size: 'S',
     },
   });
   const dao = await prisma.tshirt.findMany({
     where: {
-      title: "Tshirt Dao",
-      color: "WHITE",
-      size: "S",
+      title: 'Tshirt Dao',
+      color: 'WHITE',
+      size: 'S',
     },
   });
   const electric = await prisma.tshirt.findMany({
     where: {
-      title: "Tshirt Electric",
-      color: "PURPLE",
-      size: "S",
+      title: 'Tshirt Electric',
+      color: 'PURPLE',
+      size: 'S',
     },
   });
   const maalem = await prisma.tshirt.findMany({
     where: {
-      title: "Tshirt Maalem",
-      color: "BLACK",
-      size: "S",
+      title: 'Tshirt Maalem',
+      color: 'BLACK',
+      size: 'S',
     },
   });
   return {

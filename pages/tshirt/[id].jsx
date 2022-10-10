@@ -17,7 +17,7 @@ const TshirtPage = ({ tshirt, allTshirts }) => {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const [image, setImage] = useState("/");
-  const { addItem, totalUniqueItems, cartTotal } = useCart();
+  const { addItem } = useCart();
 
   useEffect(() => {
     setColor(tshirt?.color);

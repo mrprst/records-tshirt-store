@@ -1,3 +1,4 @@
+import React from 'react';
 import Footer from '../footer';
 import Navbar from '../navbar';
 import styles from './Layout.module.css';
