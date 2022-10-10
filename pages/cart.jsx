@@ -1,18 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useCart } from "react-use-cart";
-import { useState, useEffect } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
-import Add from "@mui/icons-material/Add";
-import Fab from "@mui/material/Fab";
-import RemoveIcon from "@mui/icons-material/Remove";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import classes from "./Cart.module.css";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useCart } from 'react-use-cart';
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import Add from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import classes from './Cart.module.css';
 
 function Cart() {
-  const [loading, setLoading] = useState(false);
-  const [isEmpty, setIsEmpty] = useState()
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
 
@@ -20,8 +18,6 @@ function Cart() {
     items,
     emptyCart,
     updateItemQuantity,
-    cartTotal,
-    totalItems,
     removeItem,
   } = useCart();
 
@@ -36,7 +32,7 @@ function Cart() {
   const createCheckOutSession = async () => {
     setLoading(true);
     const stripe = await stripePromise;
-    const checkoutSession = await axios.post("/api/create-stripe-session", {
+    const checkoutSession = await axios.post('/api/create-stripe-session', {
       tshirt,
     });
 
@@ -48,12 +44,15 @@ function Cart() {
     }
     setLoading(false);
   };
+<<<<<<< HEAD:pages/cart.jsx
+=======
 
   useEffect(() => {
     items.length > 0 ? setIsEmpty(false) : setIsEmpty(true)
     }, [items]);
 
     console.log(isEmpty)
+>>>>>>> development:pages/cart.js
 
   return (
     <div className={classes.container}>
@@ -69,6 +68,18 @@ function Cart() {
             </div>
             {items.map((item) => (
               <div key={item.id} className={classes.item}>
+<<<<<<< HEAD:pages/cart.jsx
+                <Image
+                  alt={item.title}
+                  src={`/${item?.title
+                    .split(' ')[1]
+                    .toLowerCase()}-${item.color.toLowerCase()}.jpeg`}
+                  width={100}
+                  height={100}
+                  className={classes.tshirtImage}
+                />
+                <div>
+=======
                 <div className={classes.imageContainer}>
                   <Image
                     alt={item.title}
@@ -81,6 +92,7 @@ function Cart() {
                   />
                 </div>
                 <div className={classes.info}>
+>>>>>>> development:pages/cart.js
                   <Link href={`/tshirt/${item.id}`}>
                     <a>{item.title}</a>
                   </Link>
@@ -89,35 +101,47 @@ function Cart() {
                   </p>
                 </div>
                 <div>{item.price}€</div>
-                <div className="border rounded">
+                <div className='border rounded'>
                   <div className={classes.quantity}>
                     <Fab
                       onClick={() => {
                         onQuantityMinus(item);
                       }}
+<<<<<<< HEAD:pages/cart.jsx
+                      size='small'
+                      color='primary'
+                      aria-label='add'
+=======
                       size="small"
                       color="primary"
                       aria-label="add"
                       className={classes.button}
+>>>>>>> development:pages/cart.js
                     >
                       <RemoveIcon />
                     </Fab>
                     <p>&nbsp;{item.quantity}&nbsp;</p>
                     <Fab
                       onClick={() => onQuantityPlus(item)}
+<<<<<<< HEAD:pages/cart.jsx
+                      size='small'
+                      color='primary'
+                      aria-label='add'
+=======
                       size="small"
                       color="primary"
                       aria-label="add"
                       className={classes.button}
+>>>>>>> development:pages/cart.js
                     >
                       <Add />
                     </Fab>
 
                     <Fab
                       onClick={() => removeItem(item.id)}
-                      size="small"
-                      color="error"
-                      aria-label="add"
+                      size='small'
+                      color='error'
+                      aria-label='add'
                       sx={{ marginLeft: 1 }}
                       className={classes.button}
                     >
@@ -131,13 +155,13 @@ function Cart() {
           </div>
           <div className={classes.checkout}>
             <Fab
-              variant="extended"
-              color="primary"
+              variant='extended'
+              color='primary'
               onClick={createCheckOutSession}
             >
               Payer
             </Fab>
-            <Fab variant="extended" color="error" onClick={emptyCart}>
+            <Fab variant='extended' color='error' onClick={emptyCart}>
               Vider
             </Fab>
           </div>
